@@ -24,6 +24,15 @@
 <iframe id="sheetFrame" width="100%" height="100%"></iframe>
 
 <script>
+
+  const pdfLinks = {
+    37: "pdfs/myfile1.pdf",
+    38: "pdfs/myfile2.pdf",
+    39: "pdfs/myfile3.pdf",
+    40: "pdfs/myfile4.pdf",
+    41: "pdfs/myfile5.pdf",
+    42: "pdfs/myfile6.pdf"
+  };
   const sheetLinks = {
   1: "A1:U21",
   2: "A22:U30",
@@ -64,14 +73,17 @@
 };
 
 
-  const baseURL = "https://docs.google.com/spreadsheets/d/e/2PACX-1vTkrO6zGnT2Apmi0KX5itlJAuovdGT7YRjptHhe9mDl2_ZuB_3HPg3cR-aBgrepNuSKOtp5KmwLFjae/pubhtml?gid=1992510734&single=true&range=";
-
-  const urlParams = new URLSearchParams(window.location.search);
-  const sheetNum = urlParams.get("sheet") || "1"; // default to 1
-  const range = sheetLinks[sheetNum];
-
-  if (range) {
-    document.getElementById("sheetFrame").src = baseURL + range;
+  if (pdfLinks[sheetNum]) {
+    document.getElementById("sheetFrame").src = pdfLinks[sheetNum];
+    document.getElementById("sheetFrame").style.transform = ""; // No scaling for PDFs
+    document.getElementById("sheetFrame").style.width = "100%";
+    document.getElementById("sheetFrame").style.height = "100%";
+  } else if (sheetLinks[sheetNum]) {
+    document.getElementById("sheetFrame").src = baseURL + sheetLinks[sheetNum];
+    document.getElementById("sheetFrame").style.transform = "scale(0.3)";
+    document.getElementById("sheetFrame").style.transformOrigin = "0 0";
+    document.getElementById("sheetFrame").style.width = "333.33%";
+    document.getElementById("sheetFrame").style.height = "333.33%";
   } else {
     document.body.innerHTML = "<h1>Invalid sheet number</h1>";
   }
